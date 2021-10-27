@@ -55,7 +55,6 @@ Variable_Selection_binary <- function(df., outcome){
   x <- model.matrix(~ ., df. %>% dplyr::select(-c(!!outcome)))[,-1]
   y <- df. %>% dplyr::select(!!outcome) %>% as.matrix()
 
-  fit.Lasso <- glmnet(x, y, family = "binomial", alpha = 1) #alpha: 1-->lasso, 0-->ridge
   ## cross validation:
   set.seed(123456)
   cvfit.Lasso.default <- cv.glmnet(x, y, family = "binomial", alpha = 1, type.measure = "default") # deviance
