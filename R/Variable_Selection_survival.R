@@ -78,5 +78,6 @@ Variable_Selection_survival <- function(df., time, status){
 
 
   ### Return
-  return(ifelse(result.matrix==0, "nein", "ja"))
+  result.matrix.final <- ifelse(result.matrix[order(rowSums(result.matrix)),]==0, "nein", "ja")
+  return(result.matrix.final)
 }
