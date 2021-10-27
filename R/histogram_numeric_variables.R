@@ -2,10 +2,15 @@ histogram_numeric_variables <- function(df., grp){
   # df.: Data set
   # grp: group variable
 
-  # Vector of numeric variables in df.
-  numeric_variables <- names(sapply(df., is.numeric))[which(sapply(df., is.numeric))]
+  # changing variables saved as difftime to numeric
+  if (sum(sapply(df., function(x){inherits(x, "difftime")}))>0){
+    df.[, names(df.)[which(sapply(df., function(x){inherits(x, "difftime")}))]] <- as.numeric(df.[, names(df.)[which(sapply(df., function(x){inherits(x, "difftime")}))]])
+  }
 
-  # number of coloumns in final histogram
+  # Vector of numeric variables in df.
+  numeric_variables <- names(df.)[which(sapply(df., is.numeric))]
+
+  # number of columns in final histogram
   n_coloumn_his <- ifelse(sum(is.na(df.[,grp])) > 0, # is a "NA"-value in the grp Variable?
                           length(levels(df.[,grp])) + 1,
                           length(levels(df.[,grp])))
