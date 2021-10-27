@@ -10,7 +10,7 @@ histogram_numeric_variables <- function(df., grp){
   # Vector of numeric variables in df.
   numeric_variables <- names(df.)[which(sapply(df., is.numeric))]
 
-  # number of coloumns in final histogram
+  # number of columns in final histogram
   n_coloumn_his <- ifelse(sum(is.na(df.[,grp])) > 0, # is a "NA"-value in the grp Variable?
                           length(levels(df.[,grp])) + 1,
                           length(levels(df.[,grp])))
