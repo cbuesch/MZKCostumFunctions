@@ -71,20 +71,20 @@ Variable_Selection_binary <- function(df., outcome){
 
   ## Variables left in final model
   # deviance
-  result.matrix[,5] <- as.numeric((coef(cvfit.Lasso.default, s = glmnet.lambda)!=0))[-1]
-  result.matrix[,9] <- as.numeric((coef(cvfit.Lasso.default, s = glmnet.lambda)!=0))[-1]
+  result.matrix[,5] <- as.numeric(coef(cvfit.Lasso.default, s = "lambda.min")!=0)[-1]
+  result.matrix[,9] <- as.numeric(coef(cvfit.Lasso.default, s = "lambda.1se")!=0)[-1]
 
   # misclassification error
-  result.matrix[,6]  <- as.numeric((coef(cvfit.Lasso.class, s = glmnet.lambda)!=0))[-1]
-  result.matrix[,10] <- as.numeric((coef(cvfit.Lasso.class, s = glmnet.lambda)!=0))[-1]
+  result.matrix[,6]  <- as.numeric(coef(cvfit.Lasso.class, s = "lambda.min")!=0)[-1]
+  result.matrix[,10] <- as.numeric(coef(cvfit.Lasso.class, s = "lambda.1se")!=0)[-1]
 
   # Mean-Squared Error
-  result.matrix[,7]  <- as.numeric((coef(cvfit.Lasso.mse, s = glmnet.lambda)!=0))[-1]
-  result.matrix[,11] <- as.numeric((coef(cvfit.Lasso.mse, s = glmnet.lambda)!=0))[-1]
+  result.matrix[,7]  <- as.numeric(coef(cvfit.Lasso.mse, s = "lambda.min")!=0)[-1]
+  result.matrix[,11] <- as.numeric(coef(cvfit.Lasso.mse, s = "lambda.1se")!=0)[-1]
 
   # Mean Absolute Error
-  result.matrix[,8]  <- as.numeric((coef(cvfit.Lasso.mae, s = glmnet.lambda)!=0))[-1]
-  result.matrix[,12] <- as.numeric((coef(cvfit.Lasso.mae, s = glmnet.lambda)!=0))[-1]
+  result.matrix[,8]  <- as.numeric(coef(cvfit.Lasso.mae, s = "lambda.min")!=0)[-1]
+  result.matrix[,12] <- as.numeric(coef(cvfit.Lasso.mae, s = "lambda.1se")!=0)[-1]
 
 
   ### Return
