@@ -95,5 +95,6 @@ Variable_Selection_binary <- function(df., outcome){
 
 
   ### Return
-  return(ifelse(result.matrix==0, "nein", "ja"))
+  result.matrix.final <- ifelse(result.matrix[order(rowSums(result.matrix)),]==0, "nein", "ja")
+  return(result.matrix.final)
 }
