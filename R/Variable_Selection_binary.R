@@ -6,6 +6,29 @@ Variable_Selection_binary <- function(df., outcome){
 
 
 
+  # needed function to extract variables selected in variable selection method
+  Selected_Variables <- function(predictor.variablennames, var_selected){
+    h <- rep(NA, length(predictor.variablennames))
+    #var_selected <- coef(cvfit.Lasso.default, s = "lambda.min")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.default, s = "lambda.min")!=0)==1)][-1]
+
+    for(j in 1:length(predictor.variablennames)){
+      for (k in 1:length(var_selected)) {
+        var <- var_selected[k]
+        for(i in 0:nchar(var)){
+          if(str_sub(var, start = 0, end = nchar(var)-i) == predictor.variablennames[j]){
+            h[j] <- 1
+            break
+          }
+        }
+      }
+
+      if(is.na(h[j])){ h[j]=0 }
+    }
+    return(h)
+  }
+
+
+
   # Variables used for prediction
   predictor.variablennames <- names(df. %>% dplyr::select(-c(!!outcome)))
   # Result matrix
@@ -33,28 +56,28 @@ Variable_Selection_binary <- function(df., outcome){
                               scope =list(upper = fit.AIC.full,
                                           lower = fit.AIC.null),
                               direction = "both", trace = FALSE)
-  result.matrix[,1] <- ifelse(predictor.variablennames %in% names(fit.AIC.bothFull$xlevels), 1, 0)
+  result.matrix[,1] <- ifelse(predictor.variablennames %in% names(fit.AIC.bothFull$model)[-1], 1, 0)
 
   # Both starting with null model
   fit.AIC.bothNull <- stepAIC(object = fit.AIC.null,
                               scope =list(upper = fit.AIC.full,
                                           lower = fit.AIC.null),
                               direction = "both", trace = FALSE)
-  result.matrix[,2] <- ifelse(predictor.variablennames %in% names(fit.AIC.bothNull$xlevels), 1, 0)
+  result.matrix[,2] <- ifelse(predictor.variablennames %in% names(fit.AIC.bothNull$model)[-1], 1, 0)
 
   # Backward starting with full model
   fit.AIC.backward <- stepAIC(object = fit.AIC.full,
                               scope =list(upper = fit.AIC.full,
                                           lower = fit.AIC.null),
                               direction = "backward", trace = FALSE)
-  result.matrix[,3] <- ifelse(predictor.variablennames %in% names(fit.AIC.backward$xlevels), 1, 0)
+  result.matrix[,3] <- ifelse(predictor.variablennames %in% names(fit.AIC.backward$model)[-1], 1, 0)
 
   # Forward starting with null model
   fit.AIC.forward <- stepAIC(object = fit.AIC.null,
                              scope =list(upper = fit.AIC.full,
                                          lower = fit.AIC.null),
                              direction = "forward", trace = FALSE)
-  result.matrix[,4] <- ifelse(predictor.variablennames %in% names(fit.AIC.forward$xlevels), 1, 0)
+  result.matrix[,4] <- ifelse(predictor.variablennames %in% names(fit.AIC.forward$model)[-1], 1, 0)
 
 
 
@@ -78,20 +101,29 @@ Variable_Selection_binary <- function(df., outcome){
 
   ## Variables left in final model
   # deviance
-  result.matrix[,5] <- as.numeric((coef(cvfit.Lasso.default, s = "lambda.min")!=0))[-1]
-  result.matrix[,9] <- as.numeric((coef(cvfit.Lasso.default, s = "lambda.1se")!=0))[-1]
+  result.matrix[,5] <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                          var_selected = coef(cvfit.Lasso.default, s = "lambda.min")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.default, s = "lambda.min")!=0)==1)][-1])
+
+  result.matrix[,9] <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                          var_selected = coef(cvfit.Lasso.default, s = "lambda.1se")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.default, s = "lambda.1se")!=0)==1)][-1])
 
   # misclassification error
-  result.matrix[,6]  <- as.numeric((coef(cvfit.Lasso.class, s = "lambda.min")!=0))[-1]
-  result.matrix[,10] <- as.numeric((coef(cvfit.Lasso.class, s = "lambda.1se")!=0))[-1]
+  result.matrix[,6]  <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                           var_selected = coef(cvfit.Lasso.class, s = "lambda.min")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.class, s = "lambda.min")!=0)==1)][-1])
+  result.matrix[,10] <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                           var_selected = coef(cvfit.Lasso.class, s = "lambda.1se")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.class, s = "lambda.1se")!=0)==1)][-1])
 
   # Mean-Squared Error
-  result.matrix[,7]  <- as.numeric((coef(cvfit.Lasso.mse, s = "lambda.min")!=0))[-1]
-  result.matrix[,11] <- as.numeric((coef(cvfit.Lasso.mse, s = "lambda.1se")!=0))[-1]
+  result.matrix[,7]  <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                           var_selected = coef(cvfit.Lasso.mse, s = "lambda.min")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.mse, s = "lambda.min")!=0)==1)][-1])
+  result.matrix[,11] <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                           var_selected = coef(cvfit.Lasso.mse, s = "lambda.1se")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.mse, s = "lambda.1se")!=0)==1)][-1])
 
   # Mean Absolute Error
-  result.matrix[,8]  <- as.numeric((coef(cvfit.Lasso.mae, s = "lambda.min")!=0))[-1]
-  result.matrix[,12] <- as.numeric((coef(cvfit.Lasso.mae, s = "lambda.1se")!=0))[-1]
+  result.matrix[,8]  <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                           var_selected = coef(cvfit.Lasso.mae, s = "lambda.min")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.mae, s = "lambda.min")!=0)==1)][-1])
+  result.matrix[,12] <- Selected_Variables(predictor.variablennames = predictor.variablennames,
+                                           var_selected = coef(cvfit.Lasso.mae, s = "lambda.1se")@Dimnames[[1]][which(as.numeric(coef(cvfit.Lasso.mae, s = "lambda.1se")!=0)==1)][-1])
 
 
   ### Return
