@@ -4,7 +4,7 @@ histogram_numeric_variables <- function(df., grp){
 
   # changing variables saved as difftime to numeric
   if (sum(sapply(df., function(x){inherits(x, "difftime")}))>0){
-    df.[, names(df.)[which(sapply(df., function(x){inherits(x, "difftime")}))]] <- as.numeric(df.[, names(df.)[which(sapply(df., function(x){inherits(x, "difftime")}))]])
+    df.[, names(df.)[which(sapply(df., function(x){inherits(x, "difftime")}))]] <- as.numeric(df.[, names(df.)[which(sapply(df., function(x){inherits(x, "difftime")}))]][[1]])
   }
 
   # Vector of numeric variables in df.
