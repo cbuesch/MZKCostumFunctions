@@ -4,7 +4,7 @@ Title: Costume functions for MZK reports and other kind of reports
 Version: 0.1.0
 Author: Christopher Büsch
 Maintainer: buesch@imbi.uni-heidelberg.de
-Description: 
+Description: Functions:
     Variable_Selection_binary: Performance of various variabel selection for logistic regressions
     Variable_Selection_survival: Performance of various variabel selection for cox regressions
     Z_Test_UnpairedProportionEquivalence: Equivalence test for unpaired proportions
