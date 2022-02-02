@@ -1,3 +1,4 @@
+#' @export
 extract_coxme_table <- function (mod){
   # Extracting summary table of proportional cox regression with random effect
   # using package coxme.

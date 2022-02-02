@@ -1,3 +1,4 @@
+#' @export
 histogram_numeric_variables <- function(df., grp){
   # df.: Data set
   # grp: group variable

@@ -1,3 +1,4 @@
+#' @export
 Variable_Selection_survival <- function(df., time, status){
   # df.: Data set
   # time: time variable for right censored survival endpoint, must be included in df.

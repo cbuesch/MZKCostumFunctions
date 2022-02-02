@@ -1,3 +1,4 @@
+#' @export
 Variable_Selection_binary <- function(df., outcome){
   # df.: Data set
   # outcome: outcome of interest (factor variable), must be included in df.
