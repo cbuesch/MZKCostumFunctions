@@ -1,11 +1,15 @@
 Package: MZKCostumeFunctions
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Costume functions for MZK reports and other kind of reports
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Christopher Büsch
+Maintainer: buesch@imbi.uni-heidelberg.de
+Description: 
+    Variable_Selection_binary: Performance of various variabel selection for logistic regressions
+    Variable_Selection_survival: Performance of various variabel selection for cox regressions
+    Z_Test_UnpairedProportionEquivalence: Equivalence test for unpaired proportions
+    KalanMeierEquivalenceTest: Equivalence test for Kaplan-Meier curves at differnet time points
+    extract_coxme_table: Extracting summary table of proportional cox regression with random effect using package coxme.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
