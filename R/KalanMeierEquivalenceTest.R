@@ -62,7 +62,7 @@ KalanMeierEquivalenceTest <- function(delta, alpha, t0, Equiv_NonInf, data, grp,
 
 
 
-
+#' @export
 KalanMeierEquivalenceTest_MultipleTimePoints <- function(delta, alpha, tStart, tEnd, Equiv_NonInf, data, grp, plot){
   # delta:        non-inferiority/equivalence margin
   # alpha:          significance level
