@@ -117,7 +117,7 @@ KalanMeierEquivalenceTest_MultipleTimePoints <- function(delta, alpha, tStart, t
     data.frame(
       t0 = Equiv_NonInf_Tests$t0,
       PE_Diff       = sapply(Equiv_NonInf_Tests$TestsResults, function(x) x$conf_int$diff),
-      CI_Diff_upper = sapply(Equiv_NonInf_Tests$TestsResults, function(x) x$conf_int$lower.bound),
+      CI_Diff_lower = sapply(Equiv_NonInf_Tests$TestsResults, function(x) x$conf_int$lower.bound),
       CI_Diff_upper = sapply(Equiv_NonInf_Tests$TestsResults, function(x) x$conf_int$upper.bound),
       Decision      = sapply(Equiv_NonInf_Tests$TestsResults, function(x) x$decision))
   )
